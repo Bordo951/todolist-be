@@ -1,19 +1,28 @@
+require('dotenv').config();
 import express from 'express';
 import mongoose from 'mongoose';
 import { json } from 'body-parser';
 import { todoRouter } from "./routes/todo";
 
+const cors = require('cors');
 const app = express();
-app.use(json());
-app.use(todoRouter);
+const morgan = require('morgan');
 
-mongoose.connect('mongodb://localhost:27017/todo', {
+const CONNECTION_STRING = process.env.CONNECTION_STRING || "";
+
+mongoose.connect(CONNECTION_STRING, {
     useCreateIndex: true,
     useNewUrlParser: true,
-    useUnifiedTopology: true
-}, () => {
-    console.log('connect to database')
-});
+    useUnifiedTopology: true},
+    () => {
+        console.log('connect to database')
+    }
+);
+
+app.use(morgan('tiny'));
+app.use(cors());
+app.use(json());
+app.use(todoRouter);
 
 app.listen(3000, () => {
     console.log('server is listening on port 3000');
