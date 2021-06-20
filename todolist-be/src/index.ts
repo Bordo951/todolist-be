@@ -8,6 +8,7 @@ const cors = require('cors');
 const app = express();
 const morgan = require('morgan');
 
+const PORT = process.env.PORT || 3000;
 const CONNECTION_STRING = process.env.CONNECTION_STRING || "";
 
 mongoose.connect(CONNECTION_STRING, {
@@ -24,6 +25,6 @@ app.use(cors());
 app.use(json());
 app.use(todoRouter);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
     console.log('server is listening on port 3000');
 });
