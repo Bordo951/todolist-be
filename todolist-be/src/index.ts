@@ -7,9 +7,16 @@ import { todoRouter } from "./routes/todo";
 const cors = require('cors');
 const app = express();
 const morgan = require('morgan');
+const pino = require('pino');
+const expressPino = require('express-pino-logger');
+
+const logger = pino({level: process.env.LOG_LEVEL || 'info'});
+const expressLogger = expressPino({ logger });
 
 const PORT = process.env.PORT || 3000;
-const CONNECTION_STRING = process.env.CONNECTION_STRING || "";
+const CONNECTION_STRING = process.env.CONNECTION_STRING || '';
+
+app.use(expressLogger);
 
 mongoose.connect(CONNECTION_STRING, {
     useCreateIndex: true,
@@ -26,5 +33,5 @@ app.use(json());
 app.use(todoRouter);
 
 app.listen(PORT, () => {
-    console.log('server is listening on port 3000');
+    logger.info('Server is listening on port %d', PORT);
 });
