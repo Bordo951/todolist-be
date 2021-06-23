@@ -14,7 +14,7 @@ const logger = pino({level: process.env.LOG_LEVEL || 'info'});
 const expressLogger = expressPino({ logger });
 
 const PORT = process.env.PORT || 3000;
-const CONNECTION_STRING = process.env.CONNECTION_STRING || '';
+const CONNECTION_STRING = process.env.CONNECTION_STRING || 'mongodb+srv://root:root@cluster0.qsnev.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
 app.use(expressLogger);
 
